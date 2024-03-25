@@ -60,7 +60,7 @@ fun RidePal() {
     var presses by remember { mutableIntStateOf(0) }
     Scaffold(
         topBar = {
-            MyAppBarWithImage(title = "Ride Pal", navigationIconResId = R.drawable.ic_launcher_foreground, imageResId = R.drawable.ridepalAppBar)
+            MyAppBarWithImage(title = "Ride Pal", imageResId = R.drawable.ridepalAppBar)
         },
         bottomBar = {
             BottomAppBar(
@@ -94,17 +94,9 @@ fun RidePal() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBarWithImage(title: String, navigationIconResId: Int, imageResId: Int) {
+fun MyAppBarWithImage(title: String,imageResId: Int) {
     TopAppBar(
         title = { Text(text = title, fontSize = 18.sp) },
-        navigationIcon = {
-            IconButton(onClick = {}) {
-                Icon(
-                    painter = painterResource(id = navigationIconResId),
-                    contentDescription = null // Provide appropriate content description
-                )
-            }
-        },
         actions = {
             Image(
                 painter = painterResource(id = imageResId),
