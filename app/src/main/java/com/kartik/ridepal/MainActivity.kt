@@ -5,37 +5,30 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kartik.ridepal.ui.theme.RidePalTheme
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,59 +47,57 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RidePal() {
-    var presses by remember { mutableIntStateOf(0) }
-    Scaffold(
-        topBar = {
-            MyAppBarWithImage(title = "Ride Pal", imageResId = R.drawable.ridepalAppBar)
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom app bar",
-                )
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        }
-    ) { innerPadding ->
-        Column(
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ){
+        Image(
+            painter = painterResource(id = R.drawable.ridepal_app_bar),
+            contentDescription = "app bar",
             modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-
-        }
+                .align(Alignment.TopCenter)
+        )
+    }
+    Column {
+        ProfileElement()
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBarWithImage(title: String,imageResId: Int) {
-    TopAppBar(
-        title = { Text(text = title, fontSize = 18.sp) },
-        actions = {
-            Image(
-                painter = painterResource(id = imageResId),
-                contentDescription = null, // Provide appropriate content description
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .size(32.dp)
-            )
+fun ProfileElement() {
+    var total by remember {
+        mutableIntStateOf(0)
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row{
+            Text(text = "Counter: $total")
         }
-    )
+        Spacer(modifier = Modifier.height(16.dp))
+        Row {
+            Button(onClick = { total += 10 }) {
+                Text(text = "+10")
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { total += 50 }) {
+                Text(text = "+50")
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { total -= 50 }) {
+                Text(text = "-50")
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { total = 0 }) {
+                Text(text = "reset")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
